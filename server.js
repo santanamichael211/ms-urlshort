@@ -28,8 +28,8 @@ app.get("/", function (request, response) {
   response.sendFile(__dirname + '/views/index.html');
 });
 
-app.get("/new/:newurl", function (request, response) {
-  let newurl = request.params.newurl;
+app.get("/new/*", function (request, response) {
+  let newurl = request.params[0];
   let urlReg = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/;
   
   if(!urlReg.test(newurl)){
