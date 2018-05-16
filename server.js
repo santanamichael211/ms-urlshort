@@ -9,27 +9,13 @@ var mongo = require('mongodb').MongoClient;
 
 var uri = "mongodb://user:pass@ds035766.mlab.com:35766/freecodedb";
 
-
+// http://expressjs.com/en/starter/static-files.html
 app.use(express.static('public'));
 
 // http://expressjs.com/en/starter/basic-routing.html
 app.get("/", function (request, response) {
   response.sendFile(__dirname + '/views/index.html');
 });
-
-
-/*mongo.connect(uri,{ useNewUrlParser: true },(err,database)=>{
-  if(err){
-    console.error(err);
-  }
-  else{
-    console.log("Connected to database");
-    var db = database.db("freecodedb");
-    db.collection("shorturl",(err,collection)=>{
-      
-      //----------------------------------------------------------------
-      
-      // http://expressjs.com/en/starter/static-files.html
 
 app.get("/new/*", function (request, response) {
   let newurl = request.params[0];
@@ -38,31 +24,45 @@ app.get("/new/*", function (request, response) {
   response.send(400,{error:"This is not a valid url"});
   }
   
+        
+var collection = mongo.connect(uri,{ useNewUrlParser: true },(err,database)=>{
+  if(err){
+    console.error(err);
+  }
+  else{
+    console.log("Connected to database");
+    var db = database.db("freecodedb");
+    return db.collection("shorturl");
+  }
+});
+  
+  
+  
  var r = Math.floor((Math.random()*4000)+1000);
   
-  
   while(true){
-    if(collection.find({url_val:r})){
-    r = Math.floor((Math.random()*4000)+1000);
-    }
-    else{
-    break;
-    }  
-  } 
-   
-  let urlObj = {
+  if(collection.find({url_val:r})){
+  r = Math.floor((Math.random()*4000)+1000);  
+  }
+    
+  }
+  
+
+   let urlObj = {
   original_url:newurl,
   short_url:"https://ms-urlshort.glitch.me/"+r,
   url_val:r   
+     
   }
-   
-  
-   
-   collection.find({});
    
   response.send(urlObj);
 
-
+  /*collection.update(
+   {url:newurl},
+   {$set:{urlval:r}},
+   { upsert: true}
+)*/
+  
   
   
 });
@@ -72,12 +72,6 @@ app.get("/:short", function (request, response) {
   const short = request.params.short;
 
 });
-    //------------------------------------------------------------
-    });
-  }
-});
-*/
-
 
 // listen for requests :)
 var listener = app.listen(process.env.PORT, function () {
