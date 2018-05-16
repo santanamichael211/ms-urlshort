@@ -12,9 +12,14 @@ var uri = "mongodb://user:pass@ds035766.mlab.com:35766/freecodedb";
 // http://expressjs.com/en/starter/static-files.html
 app.use(express.static('public'));
 
-
-
-
+/*var collection = mongo.connect(uri,{useNewUrlParser:true},(err,database) =>{
+  if(err) console.error(err);
+  else{
+    var db = database.db("freecodedb");
+    return db.collection("shorturl");
+  }
+});
+*/
 
 
 // http://expressjs.com/en/starter/basic-routing.html
