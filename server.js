@@ -61,16 +61,16 @@ mongo.connect(uri,{ useNewUrlParser: true },(err,database)=>{
   short_url:"https://ms-urlshort.glitch.me/"+r, 
   }
    
-  response.send(urlObj);
-
-  collection.update(
+   collection.update(
    {url:newurl},
    {$set:{urlval:r}},
    { upsert: true}
-)
-        
- db.close();       
-        
+     , (err,result)=>{
+       response.send(urlObj);
+       db.close();      
+   
+       
+     });
 }
 });
   }
