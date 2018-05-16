@@ -17,14 +17,18 @@ app.get("/", function (request, response) {
 });
 
 app.get("/api/whoami", function (request, response) {
+  var ipReg = /\d\d\d\.\d\d\.\d\.\d\d\d/;
+  var lReg = /\w+\-\w+\,/;
+  var platReg = /\(\/
+  
   
   var head = request.headers;
   
   var obj = {};
   
   
-  obj.ip = head["x-forwarded-for"];
-  obj.language = head["accept-language"];
+  obj.ip = head["x-forwarded-for"].match(ipReg)[0];
+  obj.language = head["accept-language"].match(lReg)[0];
   obj.platform = head["user-agent"];
 
 
