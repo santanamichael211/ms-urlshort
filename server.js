@@ -18,9 +18,22 @@ app.get("/", function (request, response) {
 
 app.get("/api/whoami", function (request, response) {
   
-  var platform = navigator.platform;
-  var language = navigator.language;
-  var ip = request.ip;
+  var head = request.headers;
+  
+  var obj = {};
+  
+  
+  obj.ip = head["x-forwarded-for"];
+  obj.language = head["accept-language"];
+  obj.platform = head["user-agent"];
+
+
+  
+
+  
+    
+
+  response.send(obj);
   
   
   
