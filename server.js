@@ -30,7 +30,15 @@ app.get("/", function (request, response) {
 
 app.get("/new/:newurl", function (request, response) {
   let newurl = request.params.newurl;
-  let 
+  let urlReg = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/;
+  
+  if(!urlReg.test(newurl)){
+  response.send(400,{error:"This is not a valid url"});
+  }
+  
+  response.send(newurl);
+  
+
   
 });
 
