@@ -12,6 +12,11 @@ var uri = "mongodb://user:pass@ds035766.mlab.com:35766/freecodedb";
 // http://expressjs.com/en/starter/static-files.html
 app.use(express.static('public'));
 
+
+
+
+
+
 // http://expressjs.com/en/starter/basic-routing.html
 app.get("/", function (request, response) {
   response.sendFile(__dirname + '/views/index.html');
@@ -86,7 +91,8 @@ app.get("/:short", function (request, response) {
                 else{
                   var url = result.url;
                   //response.send(200,url);
-                  document.location.replace(url);
+                  response.writeHead(301, {"Location":url});
+                  response.end();
                   }
               
               });
