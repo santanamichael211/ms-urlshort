@@ -70,7 +70,9 @@ var listener = app.listen(process.env.PORT, function () {
 
   
 function exclusiveR(r){
-  return collection.find({urlval:r},(err,doc)=>{
+  return new Promise((resolve,reject)=>{
+    
+  collection.find({urlval:r},(err,doc)=>{
           if(err){console.error(err);}
           if(!doc){
             return r;
@@ -79,4 +81,10 @@ function exclusiveR(r){
           exclusiveR((Math.random()*4000)+1000);
           }
   })
+    
+    
+    
+    
+  });
 }
+
