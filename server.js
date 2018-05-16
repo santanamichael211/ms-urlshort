@@ -16,6 +16,17 @@ app.get("/", function (request, response) {
   response.sendFile(__dirname + '/views/index.html');
 });
 
+app.get("/api/whoami", function (request, response) {
+  
+  var platform = navigator.platform;
+  var language = navigator.language;
+  var ip = request.ip;
+  
+  
+  
+  
+});
+
 // listen for requests :)
 var listener = app.listen(process.env.PORT, function () {
   console.log('Your app is listening on port ' + listener.address().port);
