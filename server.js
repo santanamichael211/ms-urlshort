@@ -40,11 +40,9 @@ mongo.connect(uri,{ useNewUrlParser: true },(err,database)=>{
       
            
        var r = Math.floor((Math.random()*4000)+1000);
-  
-   response.send(collection.find({url_vl:r}));     
         
-  /*while(true){
-  if(collection.find({url_val:r})){
+  while(true){
+  if(collection.find({url_vl:r}).toArray()[0]){
   r = Math.floor((Math.random()*4000)+1000);  
   }
   else{
@@ -55,8 +53,7 @@ mongo.connect(uri,{ useNewUrlParser: true },(err,database)=>{
 
    let urlObj = {
   original_url:newurl,
-  short_url:"https://ms-urlshort.glitch.me/"+r,
-  url_val:r   
+  short_url:"https://ms-urlshort.glitch.me/"+r, 
   }
    
   response.send(urlObj);
@@ -65,12 +62,11 @@ mongo.connect(uri,{ useNewUrlParser: true },(err,database)=>{
    {url:newurl},
    {$set:{urlval:r}},
    { upsert: true}
-)*/
+)
 
       }
 
 });
-  
   }
 });
   
