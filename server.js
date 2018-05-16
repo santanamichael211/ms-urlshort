@@ -84,8 +84,9 @@ app.get("/:short", function (request, response) {
                 if (err) throw err;
                 if(!result){response.send({error:"URL not found in database"})}
                 else{
-
-                  window.location.replace(result.url)
+                  var url = result.url;
+                  //response.send(200,url);
+                  document.location.replace(url);
                   }
               
               });
