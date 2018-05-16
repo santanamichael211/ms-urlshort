@@ -21,7 +21,6 @@ var collection = mongo.connect(uri,{ useNewUrlParser: true },(err,database)=>{
   }
 });
 
-console.log("yes");
 
 // http://expressjs.com/en/starter/static-files.html
 app.use(express.static('public'));
@@ -39,6 +38,8 @@ app.get("/new/*", function (request, response) {
   }
   
  var r = Math.floor((Math.random()*4000)+1000);
+  
+ collection.find({}); 
  
    
    let urlObj = {
