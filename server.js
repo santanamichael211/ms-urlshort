@@ -39,24 +39,19 @@ app.get("/api/whoami", function (request, response) {
   }
   else{
     obj.language = "null";
-  
   }
   
-  if(head["user-agent"].match(ipReg)){
-    obj.platform = head["user-agent"].match(platReg)[0];
+  if(head["user-agent"].match(platReg)){
+    obj.platform = head["user-agent"].match(platReg)[0].slice(1,-1);
   }
   else{
     obj.platform = "null";
   
   }
   
-
-
   response.send(obj);
   
-  
-  
-  
+
 });
 
 // listen for requests :)
