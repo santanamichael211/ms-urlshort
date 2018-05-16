@@ -9,7 +9,8 @@ var mongo = require('mongodb').MongoClient;
 
 var uri = "mongodb://user:pass@ds035766.mlab.com:35766/freecodedb";
 
-var collection = mongo.connect(uri,{ useNewUrlParser: true },(err,database)=>{
+var collection = (function(){
+mongo.connect(uri,{ useNewUrlParser: true },(err,database)=>{
   if(err){
     console.error(err);
   }
@@ -18,7 +19,8 @@ var collection = mongo.connect(uri,{ useNewUrlParser: true },(err,database)=>{
     var db = database.db("freecodedb");
     return db.collection("shorturl");
   }
-});
+})
+})();
 
 console.log("yes");
 
@@ -44,11 +46,13 @@ app.get("/new/*", function (request, response) {
   short_url:"https://ms-urlshort.glitch.me/"+r  
   }
   
-  collection.update(
+  collection.find({});
+  
+  /*collection.update(
    {url:newurl},
    {$set:{urlval:r}},
    { upsert: true}
-)
+)*/
   
   response.send(urlObj);
   
