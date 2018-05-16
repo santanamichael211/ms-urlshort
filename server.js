@@ -72,6 +72,8 @@ mongo.connect(uri,{ useNewUrlParser: true },(err,database)=>{
 
 app.get("/:short", function (request, response) {
   
+  response.end(request.params.short);
+  
   mongo.connect(uri,{ useNewUrlParser: true },(err,database)=>{
             if(err){
                       console.error(err);
@@ -81,25 +83,14 @@ app.get("/:short", function (request, response) {
     var db = database.db("freecodedb");
     db.collection("shorturl",function(err,collection){
       
-     var results = collection.find({
-      urlval:request.params.short
-      }).toArray();
+      collection.find({urlval:request.params.short},(err,result)=>{
+        
+        response.send(result.url);
       
-      if(results.length==0){
-      response.send(400,{error:"URL not found in database!"});
-      }
-      else{
       
-      }
-      
-  
-  
+      });
   });
   }
-  
-
-  const short = request.params.short;
-
 });
   
 }); 
