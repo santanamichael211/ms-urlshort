@@ -7,8 +7,18 @@ var app = express();
 
 var mongo = require('mongodb').MongoClient;
 
+var uri = "mongodb://user:pass@ds035766.mlab.com:35766/freecodedb";
 
-
+var collection = mongo.connect(uri,{ useNewUrlParser: true },(err,database)=>{
+  if(err){
+    console.error(err);
+  }
+  else{
+    console.log("Connected to database");
+    var db = database.db("freecodedb");
+    return db.collection("shorturl");
+  }
+});
 
 // http://expressjs.com/en/starter/static-files.html
 app.use(express.static('public'));
@@ -18,8 +28,10 @@ app.get("/", function (request, response) {
   response.sendFile(__dirname + '/views/index.html');
 });
 
-app.get("/new", function (request, response) {
-
+app.get("/new/:newurl", function (request, response) {
+  let newurl = request.params.newurl;
+  let 
+  
 });
 
 app.get("/:short", function (request, response) {
