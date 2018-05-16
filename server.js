@@ -17,12 +17,13 @@ app.get("/", function (request, response) {
 });
 
 app.get("/api/whoami", function (request, response) {
-  var ipReg = /\d\d\d\.\d\d\.\d\.\d\d\d/;
+  var ipReg = /\d+.\d+.\d+.\d+/;
   var lReg = /\w+\-\w+\,/;
   var platReg = /\(.+?\)/;
   
   
   var head = request.headers;
+  
   
   var obj = {};
   
@@ -31,14 +32,13 @@ app.get("/api/whoami", function (request, response) {
   }
   else{
     obj.ip = "null";
-  
   }
   
   if(head["accept-language"].match(lReg)){
     obj.language = head["accept-language"].match(lReg)[0];
   }
   else{
-    obj.language = "null";
+    obj.language = head["accept-language"];
   }
   
   if(head["user-agent"].match(platReg)){
@@ -48,6 +48,8 @@ app.get("/api/whoami", function (request, response) {
     obj.platform = "null";
   
   }
+  
+  
   
   response.send(obj);
   
