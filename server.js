@@ -37,15 +37,23 @@ app.get("/new/*", function (request, response) {
   if(!urlReg.test(newurl)){
   response.send(400,{error:"This is not a valid url"});
   }
-  
-  let r = ((Math.random*4000)+1000);//exclusiveR((Math.random*4000)+1000);
-  
-  let urlObj = {
+  var r = 0;
+ async ()=>{
+   
+  r = await exclusiveR((Math.random*4000)+1000);
+   
+   let urlObj = {
   original_url:newurl,
   short_url:"https://ms-urlshort.glitch.me/"+r  
   }
+   
+  response.send(urlObj);
+   
+   
+  };
   
-  collection.find({});
+  
+  
   
   /*collection.update(
    {url:newurl},
@@ -53,7 +61,7 @@ app.get("/new/*", function (request, response) {
    { upsert: true}
 )*/
   
-  response.send(urlObj);
+  
   
 });
 
@@ -73,18 +81,15 @@ function exclusiveR(r){
   return new Promise((resolve,reject)=>{
     
   collection.find({urlval:r},(err,doc)=>{
-          if(err){console.error(err);}
+      
+          if(err){reject(err);}
           if(!doc){
-            return r;
+            resolve(r);
                   }
           if(doc){
           exclusiveR((Math.random()*4000)+1000);
           }
-  })
-    
-    
-    
-    
+  }) 
   });
 }
 
