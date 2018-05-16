@@ -9,8 +9,8 @@ var mongo = require('mongodb').MongoClient;
 
 var uri = "mongodb://user:pass@ds035766.mlab.com:35766/freecodedb";
 
-var collection = (function(){
-mongo.connect(uri,{ useNewUrlParser: true },(err,database)=>{
+
+var collection = mongo.connect(uri,{ useNewUrlParser: true },(err,database)=>{
   if(err){
     console.error(err);
   }
@@ -19,8 +19,7 @@ mongo.connect(uri,{ useNewUrlParser: true },(err,database)=>{
     var db = database.db("freecodedb");
     return db.collection("shorturl");
   }
-})
-})();
+});
 
 console.log("yes");
 
