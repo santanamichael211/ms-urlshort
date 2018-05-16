@@ -35,26 +35,20 @@ app.get("/new/*", function (request, response) {
   response.send(400,{error:"This is not a valid url"});
   }
   
+  let r = (Math.random() *4000) + 1000;
+  
   let urlObj = {
-  url: newurl,  
+  original_url:newurl,
+  short_url:"https://ms-urlshort.glitch.me/"+r  
   }
   
-  let r = Math.random()
-  
-  collection.find({url:urlObj.url},(err,doc)=>{
-                  if(err){}
-  if(!doc){
-    collection.find()
-  
-  }   
-  
-  
-  });
-  
+  collection.update(
+   {url:newurl},
+   {$set:{urlval:r}},
+   { upsert: true}
+)
   
   response.send(newurl);
-  
-
   
 });
 
