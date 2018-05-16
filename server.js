@@ -23,8 +23,7 @@ app.get("/new/*", function (request, response) {
   if(!urlReg.test(newurl)){
   response.send(400,{error:"This is not a valid url"});
   }
-  
-        
+   
 mongo.connect(uri,{ useNewUrlParser: true },(err,database)=>{
   if(err){
     console.error(err);
@@ -49,8 +48,6 @@ mongo.connect(uri,{ useNewUrlParser: true },(err,database)=>{
   break;
   }  
   }
-  
-
    let urlObj = {
   original_url:newurl,
   short_url:"https://ms-urlshort.glitch.me/"+r, 
@@ -63,8 +60,7 @@ mongo.connect(uri,{ useNewUrlParser: true },(err,database)=>{
    {$set:{urlval:r}},
    { upsert: true}
 )
-
-      }
+}
 
 });
   }
@@ -72,11 +68,41 @@ mongo.connect(uri,{ useNewUrlParser: true },(err,database)=>{
   
 });
 
+
+
 app.get("/:short", function (request, response) {
   
+  mongo.connect(uri,{ useNewUrlParser: true },(err,database)=>{
+            if(err){
+                      console.error(err);
+                   }
+  else{
+    console.log("Connected to database");
+    var db = database.db("freecodedb");
+    db.collection("shorturl",function(err,collection){
+      
+     var results = collection.find({
+      urlval:request.params.short
+      }).toArray();
+      
+      if(results.length==0){
+      response.send(400,{error:"URL not found in database!"});
+      }
+      else{
+      
+      }
+      
+  
+  
+  });
+  }
+  
+
   const short = request.params.short;
 
 });
+  
+}); 
 
 // listen for requests :)
 var listener = app.listen(process.env.PORT, function () {
