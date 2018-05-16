@@ -72,15 +72,18 @@ mongo.connect(uri,{ useNewUrlParser: true },(err,database)=>{
 
 app.get("/:short", function (request, response) {
   
+  response.send(typeof request.params.short)
+  
   mongo.connect(uri,{ useNewUrlParser: true },(err,database)=>{
             if(err){
                       response.send(err);
                    }
             else{
             var db = database.db("freecodedb");
-              
-              db.collection("shorturl",function(err,result){
-              response.send("connected"+request.params.short);
+            db.collection("shorturl").findOne({}, function(err, result) {
+                if (err) throw err;
+            response.send(result.url);
+            
               });
             
             }
