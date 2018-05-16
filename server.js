@@ -25,26 +25,31 @@ app.get("/new/*", function (request, response) {
   }
   
         
-var collection = mongo.connect(uri,{ useNewUrlParser: true },(err,database)=>{
+mongo.connect(uri,{ useNewUrlParser: true },(err,database)=>{
   if(err){
     console.error(err);
   }
   else{
     console.log("Connected to database");
     var db = database.db("freecodedb");
-    return db.collection("shorturl");
-  }
-});
+    db.collection("shorturl",function(err,collection){
+      if(err){
+      return err;
+      }
+      else{
+      
+           
+       var r = Math.floor((Math.random()*4000)+1000);
   
-  
-  
- var r = Math.floor((Math.random()*4000)+1000);
-  
-  while(true){
+   response.send(collection.find({url_vl:r}));     
+        
+  /*while(true){
   if(collection.find({url_val:r})){
   r = Math.floor((Math.random()*4000)+1000);  
   }
-    
+  else{
+  break;
+  }  
   }
   
 
@@ -52,18 +57,22 @@ var collection = mongo.connect(uri,{ useNewUrlParser: true },(err,database)=>{
   original_url:newurl,
   short_url:"https://ms-urlshort.glitch.me/"+r,
   url_val:r   
-     
   }
    
   response.send(urlObj);
 
-  /*collection.update(
+  collection.update(
    {url:newurl},
    {$set:{urlval:r}},
    { upsert: true}
 )*/
+
+      }
+
+});
   
-  
+  }
+});
   
 });
 
