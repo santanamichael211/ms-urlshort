@@ -16,43 +16,13 @@ app.get("/", function (request, response) {
   response.sendFile(__dirname + '/views/index.html');
 });
 
-app.get("/api/whoami", function (request, response) {
-  var ipReg = /\d+.\d+.\d+.\d+/;
-  var lReg = /\w+\-\w+\,/;
-  var platReg = /\(.+?\)/;
+app.get("/new", function (request, response) {
+
+});
+
+app.get("/:short", function (request, response) {
   
-  
-  var head = request.headers;
-  
-  
-  var obj = {};
-  
-  if(head["x-forwarded-for"].match(ipReg)){
-    obj.ip = head["x-forwarded-for"].match(ipReg)[0];
-  }
-  else{
-    obj.ip = head["x-forwarded-for"];
-  }
-  
-  if(head["accept-language"].match(lReg)){
-    obj.language = head["accept-language"].match(lReg)[0];
-  }
-  else{
-    obj.language = head["accept-language"];
-  }
-  
-  if(head["user-agent"].match(platReg)){
-    obj.platform = head["user-agent"].match(platReg)[0].slice(1,-1);
-  }
-  else{
-    obj.platform = head["user-agent"];
-  
-  }
-  
-  
-  
-  response.send(obj);
-  
+  const short = request.params.short;
 
 });
 
