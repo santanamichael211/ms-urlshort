@@ -19,23 +19,38 @@ app.get("/", function (request, response) {
 app.get("/api/whoami", function (request, response) {
   var ipReg = /\d\d\d\.\d\d\.\d\.\d\d\d/;
   var lReg = /\w+\-\w+\,/;
-  var platReg = /\(\/
+  var platReg = /\(.+?\)/;
   
   
   var head = request.headers;
   
   var obj = {};
   
+  if(head["x-forwarded-for"].match(ipReg)){
+    obj.ip = head["x-forwarded-for"].match(ipReg)[0];
+  }
+  else{
+    obj.ip = "null";
   
-  obj.ip = head["x-forwarded-for"].match(ipReg)[0];
-  obj.language = head["accept-language"].match(lReg)[0];
-  obj.platform = head["user-agent"];
-
-
+  }
+  
+  if(head["accept-language"].match(lReg)){
+    obj.language = head["accept-language"].match(lReg)[0];
+  }
+  else{
+    obj.language = "null";
+  
+  }
+  
+  if(head["user-agent"].match(ipReg)){
+    obj.platform = head["user-agent"].match(platReg)[0];
+  }
+  else{
+    obj.platform = "null";
+  
+  }
   
 
-  
-    
 
   response.send(obj);
   
