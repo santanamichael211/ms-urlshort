@@ -31,7 +31,7 @@ app.get("/api/whoami", function (request, response) {
     obj.ip = head["x-forwarded-for"].match(ipReg)[0];
   }
   else{
-    obj.ip = "null";
+    obj.ip = head["x-forwarded-for"];
   }
   
   if(head["accept-language"].match(lReg)){
@@ -45,7 +45,7 @@ app.get("/api/whoami", function (request, response) {
     obj.platform = head["user-agent"].match(platReg)[0].slice(1,-1);
   }
   else{
-    obj.platform = "null";
+    obj.platform = head["user-agent"];
   
   }
   
