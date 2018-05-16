@@ -72,7 +72,7 @@ mongo.connect(uri,{ useNewUrlParser: true },(err,database)=>{
 
 app.get("/:short", function (request, response) {
   
-  response.send(typeof request.params.short)
+  
   
   mongo.connect(uri,{ useNewUrlParser: true },(err,database)=>{
             if(err){
@@ -80,10 +80,14 @@ app.get("/:short", function (request, response) {
                    }
             else{
             var db = database.db("freecodedb");
-            db.collection("shorturl").findOne({}, function(err, result) {
+            db.collection("shorturl").findOne({urlval:parseInt(request.params.short)}, function(err, result) {
                 if (err) throw err;
-            response.send(result.url);
-            
+                if(!result){response.send({error:"URL not found in database"})}
+                else{
+
+                  window.location.replace(result.url)
+                  }
+              
               });
             
             }
