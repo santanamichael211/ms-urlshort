@@ -37,10 +37,9 @@ app.get("/new/*", function (request, response) {
   if(!urlReg.test(newurl)){
   response.send(400,{error:"This is not a valid url"});
   }
-  var r = 0;
- async ()=>{
-   
-  r = await exclusiveR((Math.random*4000)+1000);
+  
+ var r = Math.floor((Math.random()*4000)+1000);
+ 
    
    let urlObj = {
   original_url:newurl,
@@ -48,13 +47,7 @@ app.get("/new/*", function (request, response) {
   }
    
   response.send(urlObj);
-   
-   
-  };
-  
-  
-  
-  
+
   /*collection.update(
    {url:newurl},
    {$set:{urlval:r}},
@@ -76,20 +69,4 @@ var listener = app.listen(process.env.PORT, function () {
   console.log('Your app is listening on port ' + listener.address().port);
 });
 
-  
-function exclusiveR(r){
-  return new Promise((resolve,reject)=>{
-    
-  collection.find({urlval:r},(err,doc)=>{
-      
-          if(err){reject(err);}
-          if(!doc){
-            resolve(r);
-                  }
-          if(doc){
-          exclusiveR((Math.random()*4000)+1000);
-          }
-  }) 
-  });
-}
 
