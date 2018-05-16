@@ -36,8 +36,6 @@ mongo.connect(uri,{ useNewUrlParser: true },(err,database)=>{
       return err;
       }
       else{
-      
-           
        var r = Math.floor((Math.random()*4000)+1000);
         
   while(true){
@@ -60,8 +58,10 @@ mongo.connect(uri,{ useNewUrlParser: true },(err,database)=>{
    {$set:{urlval:r}},
    { upsert: true}
 )
+        
+ db.close();       
+        
 }
-
 });
   }
 });
@@ -72,24 +72,24 @@ mongo.connect(uri,{ useNewUrlParser: true },(err,database)=>{
 
 app.get("/:short", function (request, response) {
   
-  response.end(request.params.short);
+  
   
   mongo.connect(uri,{ useNewUrlParser: true },(err,database)=>{
             if(err){
                       console.error(err);
                    }
   else{
-    console.log("Connected to database");
+    
     var db = database.db("freecodedb");
     db.collection("shorturl",function(err,collection){
       
-      collection.find({urlval:request.params.short},(err,result)=>{
-        
-        response.send(result.url);
-      
-      
+      collection.find({urlval:parseInt(request.params.short)},(err,result)=>{
+        result.toArray((err, res)=>{
+            response.send(res);
+        });
       });
   });
+    db.close();
   }
 });
   
