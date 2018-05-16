@@ -56,6 +56,8 @@ mongo.connect(uri,{ useNewUrlParser: true },(err,database)=>{
   break;
   }  
   }
+  
+        
    let urlObj = {
   original_url:newurl,
   short_url:"https://ms-urlshort.glitch.me/"+r, 
@@ -67,15 +69,12 @@ mongo.connect(uri,{ useNewUrlParser: true },(err,database)=>{
    { upsert: true}
      , (err,result)=>{
        response.send(urlObj);
-       db.close();      
-   
-       
      });
 }
 });
+   //db.close(); 
   }
-});
-  
+});  
 });
 
 
