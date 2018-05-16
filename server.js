@@ -20,6 +20,8 @@ var collection = mongo.connect(uri,{ useNewUrlParser: true },(err,database)=>{
   }
 });
 
+console.log("yes");
+
 // http://expressjs.com/en/starter/static-files.html
 app.use(express.static('public'));
 
@@ -35,18 +37,18 @@ app.get("/new/*", function (request, response) {
   response.send(400,{error:"This is not a valid url"});
   }
   
-  let r = exclusiveR((Math.random*4000)+1000);
+  let r = ((Math.random*4000)+1000);//exclusiveR((Math.random*4000)+1000);
   
   let urlObj = {
   original_url:newurl,
   short_url:"https://ms-urlshort.glitch.me/"+r  
   }
   
-  /*collection.update(
+  collection.update(
    {url:newurl},
    {$set:{urlval:r}},
    { upsert: true}
-)*/
+)
   
   response.send(urlObj);
   
