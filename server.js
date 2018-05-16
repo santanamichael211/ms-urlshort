@@ -35,20 +35,20 @@ app.get("/new/*", function (request, response) {
   response.send(400,{error:"This is not a valid url"});
   }
   
-  let r = (Math.random() *4000) + 1000;
+  let r = exclusiveR((Math.random*4000)+1000);
   
   let urlObj = {
   original_url:newurl,
   short_url:"https://ms-urlshort.glitch.me/"+r  
   }
   
-  collection.update(
+  /*collection.update(
    {url:newurl},
    {$set:{urlval:r}},
    { upsert: true}
-)
+)*/
   
-  response.send(newurl);
+  response.send(urlObj);
   
 });
 
@@ -62,3 +62,16 @@ app.get("/:short", function (request, response) {
 var listener = app.listen(process.env.PORT, function () {
   console.log('Your app is listening on port ' + listener.address().port);
 });
+
+  
+function exclusiveR(r){
+  return collection.find({urlval:r},(err,doc)=>{
+          if(err){console.error(err);}
+          if(!doc){
+            return r;
+                  }
+          if(doc){
+          exclusiveR((Math.random()*4000)+1000);
+          }
+  })
+}
