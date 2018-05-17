@@ -47,17 +47,7 @@ mongo.connect(uri,{ useNewUrlParser: true },(err,database)=>{
       }
       else{
        var r = Math.floor((Math.random()*4000)+1000);
-        
-  while(true){
-  if(collection.find({url_vl:r}).toArray()[0]){
-  r = Math.floor((Math.random()*4000)+1000);  
-  }
-  else{
-  break;
-  }  
-  }
-  
-        
+
    let urlObj = {
   original_url:newurl,
   short_url:"https://ms-urlshort.glitch.me/"+r, 
@@ -69,10 +59,11 @@ mongo.connect(uri,{ useNewUrlParser: true },(err,database)=>{
    { upsert: true}
      , (err,result)=>{
        response.send(urlObj);
+       
      });
 }
 });
-   //db.close(); 
+   
   }
 });  
 });
@@ -97,8 +88,8 @@ app.get("/:short", function (request, response) {
                   //response.send(200,url);
                   response.writeHead(301, {"Location":url});
                   response.end();
+                
                   }
-              
               });
             
             }
